@@ -98,6 +98,7 @@ if [ "$1" = 'dataverse' ]; then
         exit 1 
     fi
 
+	export PGPASSWORD=$POSTGRES_PASSWORD
     
     cd ~/dvinstall
     ./init-dataverse
