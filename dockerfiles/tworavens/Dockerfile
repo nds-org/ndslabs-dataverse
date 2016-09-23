@@ -3,7 +3,7 @@ MAINTAINER Craig Willis (willis8@illinois.edu)
 
 
 # For Two-Ravens
-RUN yum install -y rpm-build httpd-devel libapreq2 libapreq2-devel nc
+RUN touch /var/lib/rpm/* && yum install -y rpm-build httpd-devel libapreq2 libapreq2-devel nc
 
 
 # Build RApache 
