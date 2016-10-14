@@ -5,6 +5,14 @@ until [ $(curl -w"%{http_code}" --output /dev/null --silent localhost:8080/resou
 
 command -v jq >/dev/null 2>&1 || { echo >&2 '`jq` ("sed for JSON") is required, but not installed. Download the binary for your platform from http://stedolan.github.io/jq/ and make sure it is in your $PATH (/usr/bin/jq is fine) and executable with `sudo chmod +x /usr/bin/jq`. On Mac, you can install it with `brew install jq` if you use homebrew: http://brew.sh . Aborting.'; exit 1; }
 
+
+# Check to see if Dataverse has already been initialized (restart)
+len=$(curl --silent http://localhost:8080/api/admin/roles/ | jq '.data | length')
+if [ $len -gt 0 ]; then
+   echo "Dataverse already initialized"
+   exit
+fi
+   
 echo "Initializing Solr"
 curl -s http://$SOLR_HOST:$SOLR_PORT/solr/update/json?commit=true -H "Content-type: application/json" -X POST -d "{\"delete\": { \"query\":\"*:*\"}}"
 
@@ -43,7 +51,7 @@ curl -s -X PUT -d localhost-only "$SERVER/admin/settings/:BlockedApiPolicy"
 echo
 
 echo "Setting up the admin user (and as superuser)"
-adminResp=$(curl -s -H "Content-type:application/json" -X POST -d @data/user-admin.json "$SERVER/builtin-users?password=admin&key=burrito")
+adminResp=$(curl -s -H "Content-type:application/json" -X POST -d @data/user-admin.json "$SERVER/builtin-users?password=$ADMIN_PASSWORD&key=burrito")
 echo $adminResp
 curl -s -X POST "$SERVER/admin/superuser/dataverseAdmin"
 echo

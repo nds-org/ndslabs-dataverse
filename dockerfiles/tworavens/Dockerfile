@@ -19,10 +19,10 @@ RUN cd /tmp && wget https://github.com/jeffreyhorner/rapache/archive/v1.2.6.tar.
 
 # Download TwoMasters
 RUN cd /tmp && rm -f master.zip && \
-	wget https://github.com/IQSS/TwoRavens/archive/master.zip && \
-	unzip master.zip && \
-	rm -f master.zip && \
-	mv TwoRavens-master /var/www/html/dataexplore
+        wget https://github.com/IQSS/TwoRavens/archive/v0.1.zip && \
+	unzip v0.1.zip && \
+	rm -f v0.1.zip && \
+	mv TwoRavens-0.1 /var/www/html/dataexplore
 
 EXPOSE 80
 

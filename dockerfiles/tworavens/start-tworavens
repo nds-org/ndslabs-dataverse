@@ -9,6 +9,8 @@ use File::Copy;
 # There are really only two dynamic parameters here --  the location of the 
 # dataverse application and the location of the TwoRavens application
 my $DATAVERSE_URL = $ENV{'DATAVERSE_URL'}; 
+my $DATAVERSE_HOST = $DATAVERSE_URL;
+$DATAVERSE_URL =~ s?https://??g;
 my $RAPACHEURL = $ENV{'TWORAVENS_URL'};
 
 my $TWORAVENS_DIRECTORY="/var/www/html/dataexplore";
@@ -104,7 +106,7 @@ while (<WEBAPPFILEIN>) {
     s/http:\/\/0.0.0.0:8000\/custom\//$RAPACHEURL\/custom\//g;
     s/https:\/\/dataverse-demo.iq.harvard.edu/$RAPACHEURL/g;
     # dataverse url: 
-    s/%PRODUCTION_DATAVERSE_URL%/$DATAVERSE_URL/g;
+    s/hostname="dataverse-demo.iq.harvard.edu"/hostname="$DATAVERSE_URL"/g;
     print WEBAPPFILEOUT $_;
 }
 

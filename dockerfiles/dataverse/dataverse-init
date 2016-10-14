@@ -26,7 +26,7 @@ my @CONFIG_VARIABLES = (
     'MAIL_SERVER',
     'POSTGRES_HOST',
     'POSTGRES_PORT',
-    'POSTGRES_DATABASE',
+    'POSTGRES_DB',
     'POSTGRES_USER',
     'POSTGRES_PASSWORD',
     'RSERVE_HOST',
@@ -44,7 +44,7 @@ my %CONFIG_DEFAULTS = (
     'MAIL_SERVER',         '',
     'POSTGRES_HOST',   'localhost',
     'POSTGRES_PORT',     5432,
-    'POSTGRES_DATABASE', 'dvndb',
+    'POSTGRES_DB', 'dvndb',
     'POSTGRES_USER',     'dvnapp',
     'POSTGRES_PASSWORD', 'secret',
     'RSERVE_HOST',     'localhost',
@@ -273,10 +273,10 @@ print "\nCreating Postgres database:\n";
 my $newdb = 0;
 
 my $psql_command_dbcheck =
-  $psql_exec . "/psql -h " . $CONFIG_DEFAULTS{'POSTGRES_HOST'} . " -p " . $CONFIG_DEFAULTS{'POSTGRES_PORT'} . " -c \"\" -d " . $CONFIG_DEFAULTS{'POSTGRES_DATABASE'} . " " . $CONFIG_DEFAULTS{'POSTGRES_USER'} . " >/dev/null 2>&1";
+  $psql_exec . "/psql -h " . $CONFIG_DEFAULTS{'POSTGRES_HOST'} . " -p " . $CONFIG_DEFAULTS{'POSTGRES_PORT'} . " -c \"\" -d " . $CONFIG_DEFAULTS{'POSTGRES_DB'} . " " . $CONFIG_DEFAULTS{'POSTGRES_USER'} . " >/dev/null 2>&1";
 
 if ( ( my $exitcode = system($psql_command_dbcheck) ) == 0 ) {
-    print "Database " . $CONFIG_DEFAULTS{'POSTGRES_DATABASE'} . " already exists;\n";
+    print "Database " . $CONFIG_DEFAULTS{'POSTGRES_DB'} . " already exists;\n";
 } else {
 
    my $psql_command =
@@ -285,7 +285,7 @@ if ( ( my $exitcode = system($psql_command_dbcheck) ) == 0 ) {
      . " -U postgres"
      . " -h " . $CONFIG_DEFAULTS{'POSTGRES_HOST'} 
      . " -p " . $CONFIG_DEFAULTS{'POSTGRES_PORT'} 
-     . " " . $CONFIG_DEFAULTS{'POSTGRES_DATABASE'}
+     . " " . $CONFIG_DEFAULTS{'POSTGRES_DB'}
      . " --owner="
      . $CONFIG_DEFAULTS{'POSTGRES_USER'};
 
@@ -437,7 +437,7 @@ if ($newdb) {
      . " -U postgres"
      . " -h " . $CONFIG_DEFAULTS{'POSTGRES_HOST'} 
      . " -p " . $CONFIG_DEFAULTS{'POSTGRES_PORT'} 
-     . " -d " . $CONFIG_DEFAULTS{'POSTGRES_DATABASE'}
+     . " -d " . $CONFIG_DEFAULTS{'POSTGRES_DB'}
      . " -f " . $SQL_REFERENCE_DATA;
 
 #print $psql_init_command ."\n";
@@ -481,7 +481,7 @@ sub setup_glassfish {
 
     $ENV{'DB_PORT'} = $CONFIG_DEFAULTS{'POSTGRES_PORT'};
     $ENV{'DB_HOST'} = $CONFIG_DEFAULTS{'POSTGRES_HOST'};
-    $ENV{'DB_NAME'} = $CONFIG_DEFAULTS{'POSTGRES_DATABASE'};
+    $ENV{'DB_NAME'} = $CONFIG_DEFAULTS{'POSTGRES_DB'};
     $ENV{'DB_USER'} = $CONFIG_DEFAULTS{'POSTGRES_USER'};
     $ENV{'DB_PASS'} = $CONFIG_DEFAULTS{'POSTGRES_PASSWORD'};
 

@@ -10,7 +10,7 @@ export ASADMIN_OPTS="--user admin --passwordfile /tmp/tmppwd"
 
 ./asadmin $ASADMIN_OPTS create-jdbc-connection-pool --restype javax.sql.DataSource \
     --datasourceclassname org.postgresql.ds.PGPoolingDataSource \
-    --property create=true:User=$POSTGRES_USER:PortNumber=$POSTGRES_PORT:databaseName=$POSTGRES_DATABASE:password=$POSTGRES_PASSWORD:ServerName=$POSTGRES_HOST \
+    --property create=true:User=$POSTGRES_USER:PortNumber=$POSTGRES_PORT:databaseName=$POSTGRES_DB:password=$POSTGRES_PASSWORD:ServerName=$POSTGRES_HOST \
     dvnDbPool
 
 ./asadmin $ASADMIN_OPTS create-jdbc-resource --connectionpoolid dvnDbPool jdbc/VDCNetDS
@@ -24,7 +24,6 @@ export ASADMIN_OPTS="--user admin --passwordfile /tmp/tmppwd"
 ./asadmin $ASADMIN_OPTS create-jvm-options "\-Ddataverse.rserve.password=${RSERVE_PASSWORD}"
 ./asadmin $ASADMIN_OPTS create-jvm-options "\-Ddataverse.fqdn=${HOST_DNS_ADDRESS}"
 
-./asadmin $ASADMIN_OPTS set-log-levels edu.harvard.iq.dataverse=FINE
 
 ./asadmin $ASADMIN_OPTS create-javamail-resource --mailhost "$MAIL_SERVER" --mailuser "dataversenotify" --fromaddress "do-not-reply@${HOST_DNS_ADDRESS}" mail/notifyMailSession
 

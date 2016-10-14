@@ -16,7 +16,7 @@ RUN yum install -y \
 ENV GLASSFISH_DOWNLOAD_SHA1 d1a103d06682eb08722fbc9a93089211befaa080
 ENV GLASSFISH_DIRECTORY "/usr/local/glassfish4"
 ENV HOST_DNS_ADDRESS "localhost"
-ENV POSTGRES_DATABASE "dvndb"
+ENV POSTGRES_DB "dvndb"
 ENV POSTGRES_USER "dvnapp"
 ENV RSERVE_USER "rserve"
 ENV RSERVE_PASSWORD "rserve"
@@ -50,8 +50,6 @@ RUN  cd ~ \
     && unzip dvinstall-4.2.3.zip \
     && jar -uf dvinstall/dataverse.war -C /tmp/ /WEB-INF/classes/META-INF/persistence.xml
 
-RUN ln -s /usr/local/glassfish4/glassfish/domains/domain1/logs /var/log/dataverse
-
 # Install iRods iCommands
 RUN  cd /tmp \
    && yum -y install epel-release \
@@ -63,16 +61,16 @@ COPY config-dataverse /root/dvinstall
 
 RUN cd /root/dvinstall && ./config-dataverse
 
-VOLUME /usr/local/glassfish4/glassfish/domains/domain1/files
-COPY ddl /root/dvinstall
-COPY init-postgres /root/dvinstall
-COPY init-glassfish /root/dvinstall
-COPY init-dataverse /root/dvinstall
-COPY setup-all.sh /root/dvinstall
-COPY setup-irods.sh /root/dvinstall
+COPY ./entrypoint.sh /
+COPY ./ddl /root/dvinstall
+COPY ./init-postgres /root/dvinstall
+COPY ./init-glassfish /root/dvinstall
+COPY ./init-dataverse /root/dvinstall
+COPY ./setup-all.sh /root/dvinstall
+COPY ./setup-irods.sh /root/dvinstall
+COPY ./Dockerfile /
 
-COPY entrypoint.sh /
-COPY Dockerfile /
+VOLUME /usr/local/glassfish4/glassfish/domains/domain1/files
 
 EXPOSE      8080 
 

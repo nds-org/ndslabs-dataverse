@@ -5,22 +5,20 @@ set -e
 
 if [ "$1" = 'tworavens' ]; then
 
-  TIMEOUT=30
-
-  EXTERNAL_IP=$(curl http://api.ipify.org)
-
-  DATAVERSE_PORT=$DATAVERSE_NODE_PORT
-  DATAVERSE_URL="http://$EXTERNAL_IP:$DATAVERSE_PORT"
-  export DATAVERSE_URL;
-
-  TWORAVENS_PORT=$TWORAVENS_NODE_PORT
-  TWORAVENS_URL="http://$EXTERNAL_IP:$TWORAVENS_PORT"
-  export TWORAVENS_URL;
-
-  echo $DATAVERSE_URL
-  echo $TWORAVENS_URL
+  if [ -z "$DATAVERSE_URL" ]; then
+	echo You must specify DATAVERSE_URL
+	exit 1
+  fi
+  
+  if [ -z "$TWORAVENS_URL" ]; then
+	echo You must specify TWORAVENS_URL
+	exit 1
+  fi
 
   echo "Starting TwoRavens"
+  echo "DATAVERSE_URL=$DATAVERSE_URL"
+  echo "TWORAVENS_URL=$TWORAVENS_URL"
+
   /start-tworavens
   httpd -DFOREGROUND
 else
