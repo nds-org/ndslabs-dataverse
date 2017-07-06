@@ -46,8 +46,8 @@ COPY WEB-INF/classes/META-INF/persistence.xml /tmp/WEB-INF/classes/META-INF/
 
 # Install DataVerse WAR
 RUN  cd ~ \
-    && wget https://github.com/IQSS/dataverse/releases/download/v4.2.3/dvinstall-4.2.3.zip \
-    && unzip dvinstall-4.2.3.zip \
+    && wget https://github.com/IQSS/dataverse/releases/download/v4.7/dvinstall.zip \
+    && unzip dvinstall.zip \
     && jar -uf dvinstall/dataverse.war -C /tmp/ /WEB-INF/classes/META-INF/persistence.xml
 
 # Install iRods iCommands
