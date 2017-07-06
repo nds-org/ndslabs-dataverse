@@ -88,3 +88,35 @@ The following changes were made to the Dataverse application:
 * Dataverse: Custom WAR with persistence.xml to avoid database recreation by EclipseLink on restart
 * TwoRavens: Customized startup process based on the original install.pl
 * TwoRavens: endpoint.sh reads Kubernetes-supplied environment variables and connects to required services
+
+### Generating DDL
+
+The Dataverse Dockerfile depends on a pre-generated DDL script.  Below are the steps to generate DDL.
+
+Modify WEB-INF/classes/META-INF/persistence.xml, changing the ddl-generation to generate:
+```
+     <property name="eclipselink.ddl-generation" value="create-tables"/>
+     <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+     <property name="eclipselink.application-location" value="/tmp/"/>
+     <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL.sql"/>
+```
+
+Build the Docker image:
+```
+docker build -t you/dataverse .
+```
+
+
+```
+docker run --name=postgres -d  postgres:9.3
+docker run --name=solr -d ndslabs/dataverse-solr:latest
+docker run -p 8080:8080 --link solr:solr --link postgres:postgres -e "POSTGRES_DATABASE=dvndb" -e "POSTGRES_USER=dvnapp" -e "POSTGRES_PASSWORD=secret"  --name=dataverse  -it you/dataverse:latest bash
+$ /entrypoint.sh dataverse
+```
+
+This will create a file create-dataverse.sql in /tmp in the container.  Copy this file out:
+```
+docker cp dataverse:/tmp/createDDL.sql .
+``` 
+
+Check this DDL into git
