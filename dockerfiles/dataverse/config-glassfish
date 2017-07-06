@@ -6,7 +6,7 @@ pushd $GLASSFISH_BIN_DIR
 
 echo "AS_ADMIN_PASSWORD=adminadmin"  > /tmp/tmppwd
 #./asadmin create-domain --nopassword domain1
-export ASADMIN_OPTS="--user admin --passwordfile /tmp/tmppwd"
+export ASADMIN_OPTS="--user admin --passwordfile /tmp/tmppwd --interactive=false"
 ./asadmin $ASADMIN_OPTS create-domain domain1
 ./asadmin $ASADMIN_OPTS start-domain domain1
 
