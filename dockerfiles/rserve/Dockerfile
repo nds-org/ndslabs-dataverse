@@ -40,9 +40,8 @@ RUN R -q -e "source('https://bioconductor.org/biocLite.R'); biocLite('Rgraphviz'
 
 # Install pinned Zelig version
 RUN cd /tmp &&  \
-     git clone https://github.com/IQSS/Zelig.git && \
+     git clone https://github.com/IQSS/Zelig.git -b v5.0-17 && \
      cd Zelig && \
-     git checkout b836d6f627a1e94e53b055e1406dd0bd935e74b1 && \
      R -q -e "setwd('/tmp'); library(devtools); install('Zelig')" 
 
 RUN /usr/sbin/groupadd -g 97 -o -r rserve  && \
