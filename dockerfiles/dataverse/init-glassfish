@@ -5,7 +5,7 @@ pushd $GLASSFISH_BIN_DIR
 
 FILES_DIR=$GLASSFISH_DIRECTORY/glassfish/domains/domain1/files
 
-export ASADMIN_OPTS="--user admin --passwordfile /tmp/tmppwd"
+export ASADMIN_OPTS="--user admin --passwordfile /tmp/tmppwd --interactive=false"
 ./asadmin $ASADMIN_OPTS start-domain domain1
 
 ./asadmin $ASADMIN_OPTS create-jdbc-connection-pool --restype javax.sql.DataSource \

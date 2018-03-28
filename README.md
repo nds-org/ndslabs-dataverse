@@ -1,4 +1,4 @@
-# Dataverse 4.2.3
+# Dataverse 4.7
 
 Resources to deploy Dataverse in Kubernetes or [NDS Labs](https://github.com/nds-org/ndslabs).
 
@@ -15,7 +15,7 @@ A set of configuration files used to deploy Dataverse in a Kubernetes cluster.
 While these configuration files are no longer used by this project, they have been kept for historical purposes.
 
 ## Documentation
-Documentation for Dataverse can be found here: http://guides.dataverse.org/en/4.2.3/
+Documentation for Dataverse can be found here: http://guides.dataverse.org/en/4.7
 Documentation for iRODS can be found here: http://irods.org/documentation/
 
 ## See also
